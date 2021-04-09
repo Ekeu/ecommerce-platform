@@ -19,6 +19,7 @@ module.exports = {
         orange: colors.orange,
         pink: colors.pink,
         'cool-gray': colors.coolGray,
+        'blue-gray': colors.blueGray,
       },
     },
   },

@@ -2,9 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ReactComponent as Logo } from '../../assets/hotShopping.svg';
 
+import { auth } from '../../firebase/firebase.utils';
+
 import './header.styles.scss';
 
-const Header = () => {
+const Header = ({ currentUser }) => {
   return (
     <div className='header font-hind'>
       <Link className='logo-container' to='/'>
@@ -23,6 +25,21 @@ const Header = () => {
         >
           Contact
         </Link>
+        {currentUser ? (
+          <div
+            className='option text-lg font-medium text-gray-500 hover:text-gray-900'
+            onClick={() => auth.signOut()}
+          >
+            Sign out
+          </div>
+        ) : (
+          <Link
+            className='option text-lg font-medium text-gray-500 hover:text-gray-900'
+            to='/signin'
+          >
+            Sign in
+          </Link>
+        )}
       </div>
     </div>
   );
