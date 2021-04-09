@@ -8,6 +8,7 @@ module.exports = {
       fontFamily: {
         hind: ['Hind', 'sans-serif'],
         poppins: ['Poppins', 'sans-serif'],
+        bangers: ['Bangers', 'cursive'],
       },
       colors: {
         rose: colors.rose,
