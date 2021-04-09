@@ -16,7 +16,7 @@ const MenuItem = ({ title, imageUrl, size, history, match, linkUrl }) => {
         className={`background-image w-full h-full bg-center bg-cover`}
       />
       <div className='content absolute'>
-        <h1 className='title font-bangers text-9xl'>{title.toUpperCase()}</h1>
+        <h1 className='title font-bangers text-4xl'>{title.toUpperCase()}</h1>
         <div className='subtitle font-hind'>SHOP NOW</div>
       </div>
     </div>

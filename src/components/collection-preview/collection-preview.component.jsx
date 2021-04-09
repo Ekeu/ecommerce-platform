@@ -6,7 +6,7 @@ import './collection-preview.styles.scss';
 const CollectionPreview = ({ title, items }) => {
   return (
     <div className='collection-preview'>
-      <h1 className='title font-poppins'>{title.toUpperCase()}</h1>
+      <h1 className='title font-bangers text-4xl'>{title.toUpperCase()}</h1>
       <div className='preview font-hind'>
         {items
           .filter((item, idx) => idx < 4)
