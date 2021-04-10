@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import HotShopping from '../../assets/hotShopping.svg';
-import CustomButton from '../../components/custom-button/custom-button.component';
-import SocialButton from '../../components/custom-button/social-button.component';
-import FormInput from '../../components/form-input/form-input.component';
+import CustomButton from '../custom-button/custom-button.component';
+import SocialButton from '../custom-button/social-button.component';
+import FormInput from '../form-input/form-input.component';
 
 import { ReactComponent as Google } from '../../assets/sign-in-google.svg';
 import { ReactComponent as Twitter } from '../../assets/sign-in-twitter.svg';

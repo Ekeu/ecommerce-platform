@@ -12,6 +12,39 @@ const config = {
   measurementId: 'G-7KDSB8HVV0',
 };
 
+/**
+ * This function will take the user OAuth object we got
+ * back from the authentication library and store it in the db
+ */
+
+export const createUserProfileDocument = async (userAuth, additionalData) => {
+  if (!userAuth) return;
+
+  const userRef = firestore.doc(`users/${userAuth.uid}`);
+
+  const snapShot = await userRef.get();
+
+  if (!snapShot.exists) {
+    const { providerData } = userAuth;
+    const { displayName, email, photoURL } = providerData[0];
+    const createdAt = new Date();
+
+    try {
+      await userRef.set({
+        displayName,
+        email,
+        photoURL,
+        createdAt,
+        ...additionalData,
+      });
+    } catch (error) {
+      console.log('Error creating user ==> ', error.message);
+    }
+  }
+
+  return userRef;
+};
+
 firebase.initializeApp(config);
 
 export const auth = firebase.auth();
