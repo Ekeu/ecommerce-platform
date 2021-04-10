@@ -13,6 +13,7 @@ import {
   signInWithGoogle,
   signInWithTwitter,
   signInWithGithub,
+  auth,
 } from '../../firebase/firebase.utils';
 
 export default class SignIn extends Component {
@@ -25,9 +26,16 @@ export default class SignIn extends Component {
     };
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
-    this.setState({ email: '', password: '' });
+    const { email, password } = this.state;
+
+    try {
+      await auth.signInWithEmailAndPassword(email, password);
+      this.setState({ email: '', password: '' });
+    } catch (error) {
+      console.log('Ooop! Something went wrong ==> ', error.message);
+    }
   };
 
   handleChange = (e) => {

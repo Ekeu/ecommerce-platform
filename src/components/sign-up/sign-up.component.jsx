@@ -69,7 +69,7 @@ export default class SignUp extends Component {
           <p class='mt-2 text-center text-sm text-blue-gray-600 max-w'>
             Already a member?
             <Link
-              to='/signup'
+              to='/signin'
               class='font-medium text-red-500 hover:text-red-500'
             >
               {' '}
