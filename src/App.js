@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/shop.component';
 import Header from './components/header/header.component';
 import SignIn from './components/sign-in/sign-in.component';
 import SignUp from './components/sign-up/sign-up.component';
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
+import { setCurentUser } from './redux/user/user.action';
 
 import './App.css';
 
@@ -13,13 +16,6 @@ class App extends Component {
   /**
    * Get user state whatever the provider
    */
-  constructor() {
-    super();
-
-    this.state = {
-      currentUser: null,
-    };
-  }
 
   unsubscribeFromAuth = null;
 
@@ -29,6 +25,8 @@ class App extends Component {
    * when the authentication state has changed.
    */
   componentDidMount() {
+    const { setCurentUser } = this.props;
+
     /**
      * onAuthStateChanged ==> is an open subscription
      *
@@ -54,15 +52,13 @@ class App extends Component {
          * Constantly listening to changes on the referenced document
          */
         userRef.onSnapshot((snapShot) => {
-          this.setState({
-            currentUser: {
-              id: snapShot.id,
-              ...snapShot.data(),
-            },
+          setCurentUser({
+            id: snapShot.id,
+            ...snapShot.data(),
           });
         });
       } else {
-        this.setState({
+        setCurentUser({
           currentUser: userAuth,
         });
       }
@@ -82,7 +78,7 @@ class App extends Component {
   render() {
     return (
       <>
-        <Header currentUser={this.state.currentUser} />
+        <Header />
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route path='/shop' component={ShopPage} />
@@ -93,5 +89,28 @@ class App extends Component {
     );
   }
 }
+/**
+ * The first argument being mapStateToProps, ou App doesn't
+ * need currentUser anymore because either from passing it
+ * to the header (which we don't need anymore since our
+ * header not gets it's state directly from the store) it only
+ * sets it and does nothing withe the currentUser value in it's
+ * component.
+ */
+/**
+ * So what we are going to is pass null as fire argument since
+ * we don't need to pass any state to our props from the reducer
+ */
 
-export default App;
+/**
+ * mapDispatchToProps (optional argument): Get's a dispatch property and returns
+ * an object were the prop name is whatever prop we want to pass in that dispatches
+ * the new action that we are trying to pass.
+ *
+ * @param {object} dispatch A way for redux to know that whatever object you're passing me is going to be an action object that I'm going to pass to every reducer.
+ * @returns {object} {property: value} The property being the actual prop we pass in our component
+ */
+const mapDispatchToProps = (dispatch) => ({
+  setCurentUser: (user) => dispatch(setCurentUser(user)),
+});
+export default connect(null, mapDispatchToProps)(App);
