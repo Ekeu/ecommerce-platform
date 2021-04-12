@@ -45,21 +45,21 @@ export default class SignIn extends Component {
 
   render() {
     return (
-      <div class='min-h-screen bg-white flex flex-col justify-center py-12 sm:px-6 lg:px-8'>
-        <div class='sm:mx-auto sm:w-full sm:max-w-md'>
+      <div className='min-h-screen bg-white flex flex-col justify-center py-12 sm:px-6 lg:px-8'>
+        <div className='sm:mx-auto sm:w-full sm:max-w-md'>
           <img
-            class='mx-auto h-12 w-auto'
+            className='mx-auto h-12 w-auto'
             src={HotShopping}
             alt='HotShopping'
           />
-          <h2 class='mt-6 text-center text-3xl font-extrabold font-hind text-blue-gray-700'>
+          <h2 className='mt-6 text-center text-3xl font-extrabold font-hind text-blue-gray-700'>
             I already have an account ✌🏽
           </h2>
-          <p class='mt-2 text-center text-sm text-blue-gray-600 max-w'>
+          <p className='mt-2 text-center text-sm text-blue-gray-600 max-w'>
             Or don't have and account yet?
             <Link
               to='/signup'
-              class='font-medium text-red-500 hover:text-red-500'
+              className='font-medium text-red-500 hover:text-red-500'
             >
               {' '}
               Sign up
@@ -67,16 +67,16 @@ export default class SignIn extends Component {
           </p>
         </div>
 
-        <div class='mt-8 sm:mx-auto sm:w-full sm:max-w-md'>
-          <div class='bg-white py-8 px-4 shadow-md sm:rounded-lg sm:px-10'>
-            <form class='space-y-6' onSubmit={this.handleSubmit}>
+        <div className='mt-8 sm:mx-auto sm:w-full sm:max-w-md'>
+          <div className='bg-white py-8 px-4 shadow-md sm:rounded-lg sm:px-10'>
+            <form className='space-y-6' onSubmit={this.handleSubmit}>
               <div>
                 <FormInput
                   id='email'
                   name='email'
                   type='email'
                   label='Email address'
-                  autocomplete='email'
+                  autoComplete='email'
                   required
                   value={this.state.email}
                   handleChange={this.handleChange}
@@ -87,7 +87,7 @@ export default class SignIn extends Component {
                   id='password'
                   name='password'
                   type='password'
-                  autocomplete='current-password'
+                  autoComplete='current-password'
                   required
                   label='Password'
                   value={this.state.password}
@@ -100,19 +100,19 @@ export default class SignIn extends Component {
               </div>
             </form>
 
-            <div class='mt-6'>
-              <div class='relative'>
-                <div class='absolute inset-0 flex items-center'>
-                  <div class='w-full border-t border-gray-300'></div>
+            <div className='mt-6'>
+              <div className='relative'>
+                <div className='absolute inset-0 flex items-center'>
+                  <div className='w-full border-t border-gray-300'></div>
                 </div>
-                <div class='relative flex justify-center text-sm'>
-                  <span class='px-2 bg-white text-gray-500'>
+                <div className='relative flex justify-center text-sm'>
+                  <span className='px-2 bg-white text-gray-500'>
                     Or continue with
                   </span>
                 </div>
               </div>
 
-              <div class='mt-6 grid grid-cols-3 gap-3'>
+              <div className='mt-6 grid grid-cols-3 gap-3'>
                 <div>
                   <SocialButton social='Google' onClick={signInWithGoogle}>
                     <Google />

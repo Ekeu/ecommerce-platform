@@ -61,7 +61,7 @@ const Header = ({ currentUser }) => {
  *
  * ==> mapStateToProps : It allows are component to access the state with the state
  * being our root reducer.
- * ==> mapDispatchToProps (optional argument): Get's a dispatch property and returns 
+ * ==> mapDispatchToProps (optional argument): Get's a dispatch property and returns
  * an object were the prop name is whatever prop we want to pass in that dispatches
  * the new action that we are trying to pass. (Cf App component)
  */

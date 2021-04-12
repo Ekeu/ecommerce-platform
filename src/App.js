@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import HomePage from './pages/homepage/homepage.component';
@@ -58,9 +58,7 @@ class App extends Component {
           });
         });
       } else {
-        setCurentUser({
-          currentUser: userAuth,
-        });
+        setCurentUser(userAuth);
       }
     });
   }
@@ -75,6 +73,9 @@ class App extends Component {
     this.unsubscribeFromAuth();
   }
 
+  userRedirect = (Component) =>
+    this.props.currentUser ? <Redirect to='/' /> : <Component />;
+
   render() {
     return (
       <>
@@ -82,19 +83,30 @@ class App extends Component {
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route path='/shop' component={ShopPage} />
-          <Route path='/signin' component={SignIn} />
-          <Route path='/signup' component={SignUp} />
+          <Route
+            exact
+            path='/signin'
+            render={() => this.userRedirect(SignIn)}
+          />
+          <Route
+            exact
+            path='/signup'
+            render={() => this.userRedirect(SignUp)}
+          />
         </Switch>
       </>
     );
   }
 }
+const mapStateToProps = ({ user }) => ({
+  currentUser: user.currentUser,
+});
 /**
  * The first argument being mapStateToProps, ou App doesn't
  * need currentUser anymore because either from passing it
  * to the header (which we don't need anymore since our
  * header not gets it's state directly from the store) it only
- * sets it and does nothing withe the currentUser value in it's
+ * sets it and does nothing with the currentUser value in it's
  * component.
  */
 /**
@@ -113,4 +125,4 @@ class App extends Component {
 const mapDispatchToProps = (dispatch) => ({
   setCurentUser: (user) => dispatch(setCurentUser(user)),
 });
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -56,21 +56,21 @@ export default class SignUp extends Component {
   render() {
     const { displayName, email, password, confirmPassword } = this.state;
     return (
-      <div class='min-h-screen bg-white flex flex-col justify-center py-12 sm:px-6 lg:px-8'>
-        <div class='sm:mx-auto sm:w-full sm:max-w-md'>
+      <div className='min-h-screen bg-white flex flex-col justify-center py-12 sm:px-6 lg:px-8'>
+        <div className='sm:mx-auto sm:w-full sm:max-w-md'>
           <img
-            class='mx-auto h-12 w-auto'
+            className='mx-auto h-12 w-auto'
             src={HotShopping}
             alt='HotShopping'
           />
-          <h2 class='mt-6 text-center text-3xl font-extrabold font-hind text-blue-gray-700'>
+          <h2 className='mt-6 text-center text-3xl font-extrabold font-hind text-blue-gray-700'>
             I do not have an account 🎉
           </h2>
-          <p class='mt-2 text-center text-sm text-blue-gray-600 max-w'>
+          <p className='mt-2 text-center text-sm text-blue-gray-600 max-w'>
             Already a member?
             <Link
               to='/signin'
-              class='font-medium text-red-500 hover:text-red-500'
+              className='font-medium text-red-500 hover:text-red-500'
             >
               {' '}
               Sign in
@@ -78,16 +78,16 @@ export default class SignUp extends Component {
           </p>
         </div>
 
-        <div class='mt-8 sm:mx-auto sm:w-full sm:max-w-md'>
-          <div class='bg-white py-8 px-4 shadow-md sm:rounded-lg sm:px-10'>
-            <form class='space-y-6' onSubmit={this.handleSubmit}>
+        <div className='mt-8 sm:mx-auto sm:w-full sm:max-w-md'>
+          <div className='bg-white py-8 px-4 shadow-md sm:rounded-lg sm:px-10'>
+            <form className='space-y-6' onSubmit={this.handleSubmit}>
               <div>
                 <FormInput
                   id='displayName'
                   name='displayName'
                   type='text'
                   label='Display Name'
-                  autocomplete='username'
+                  autoComplete='username'
                   required
                   value={displayName}
                   handleChange={this.handleChange}
@@ -99,7 +99,7 @@ export default class SignUp extends Component {
                   name='email'
                   type='email'
                   label='Email address'
-                  autocomplete='email'
+                  autoComplete='email'
                   required
                   value={email}
                   handleChange={this.handleChange}
@@ -110,7 +110,7 @@ export default class SignUp extends Component {
                   id='password'
                   name='password'
                   type='password'
-                  autocomplete='new-password'
+                  autoComplete='new-password'
                   required
                   label='Password'
                   value={password}
@@ -134,7 +134,7 @@ export default class SignUp extends Component {
               </div>
             </form>
 
-            <div class='mt-6'></div>
+            <div className='mt-6'></div>
           </div>
         </div>
       </div>
