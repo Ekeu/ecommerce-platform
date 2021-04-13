@@ -4,6 +4,10 @@ import { Transition } from '@headlessui/react';
 
 import { toggleCartHidden } from '../../redux/cart/cart.actions';
 import CartItem from '../cart-item/cart-item.component';
+import {
+  selectCartItems,
+  selectCartVisibility,
+} from '../../redux/cart/cart.selectors';
 import { Link } from 'react-router-dom';
 
 const Cart = ({ hidden, toggleCartHidden, cartItems }) => {
@@ -118,9 +122,9 @@ const Cart = ({ hidden, toggleCartHidden, cartItems }) => {
   );
 };
 
-const mapStateToProps = ({ cart: { hidden, cartItems } }) => ({
-  hidden,
-  cartItems,
+const mapStateToProps = (state) => ({
+  hidden: selectCartVisibility(state),
+  cartItems: selectCartItems(state),
 });
 const mapDispatchToProps = (dispatch) => ({
   toggleCartHidden: () => dispatch(toggleCartHidden()),
