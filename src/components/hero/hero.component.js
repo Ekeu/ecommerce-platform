@@ -1,5 +1,5 @@
 import React from 'react';
-import Code from '../../assets/code.svg';
+import Hot from '../../assets/hot-nigga.svg';
 import CustomButton from '../custom-button/custom-button.component';
 
 const Hero = () => {
@@ -10,7 +10,7 @@ const Hero = () => {
           <div className='mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:gap-24'>
             <div>
               <div>
-                <img className='h-11 w-auto' src={Code} alt='Hot Shopping' />
+                <img className='h-11 w-auto' src={Hot} alt='Hot Niggga' />
               </div>
               <div className='mt-20'>
                 <div>
@@ -98,7 +98,7 @@ const Hero = () => {
               <div className='relative z-0 pl-4 -mr-40 sm:mx-auto sm:max-w-3xl sm:px-0 lg:max-w-none lg:h-full lg:pl-12'>
                 <img
                   className='w-full rounded-md shadow-xl ring-1 ring-black ring-opacity-5 lg:h-full lg:w-auto lg:max-w-none'
-                  src='https://res.cloudinary.com/dmcookpro/image/upload/v1618274867/shopping-day-international-girlfriends-women-city_t3q4hq.jpg'
+                  src='https://res.cloudinary.com/dmcookpro/image/upload/v1618302170/portrait-beautiful-woman-shopping-time_bhqvth.jpg'
                   alt=''
                 />
               </div>

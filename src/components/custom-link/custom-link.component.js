@@ -21,6 +21,16 @@ const CustomLink = ({
         {children}
       </button>
     );
+  } else if (type === 'link-button') {
+    Component = (
+      <Link
+        to={url}
+        {...otherProps}
+        className={`${custom} whitespace-nowrap inline-flex items-center justify-center border border-transparent rounded-md shadow-sm fon-hind`}
+      >
+        {children}
+      </Link>
+    );
   } else if (type === 'nav') {
     Component = (
       <Link
