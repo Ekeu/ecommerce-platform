@@ -7,8 +7,8 @@ import { Transition } from '@headlessui/react';
  * a new suit up component
  */
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect'
 import { auth } from '../../firebase/firebase.utils';
-
 import Logo from '../../assets/hotShopping.svg';
 import './header.styles.scss';
 import CustomLink from '../custom-link/custom-link.component';
@@ -16,6 +16,7 @@ import Search from '../search/search.component';
 import MobileHeader from '../mobile-header/mobile-header.component';
 import CartIcon from '../cart-icon/cart-icon.component';
 import Cart from '../cart-dropdown/cart-dropdown.component';
+import { selectCurrentUser } from '../../redux/user/user.selector'
 
 const Header = ({ currentUser }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -181,8 +182,7 @@ const Header = ({ currentUser }) => {
  * @param {object} state The root reducer. The top level root reducer
  * @returns {object} {property: value} The property being the actual prop we pass in our component
  */
-const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
-  currentUser,
-  hidden,
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
 });
 export default connect(mapStateToProps)(Header);

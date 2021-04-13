@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Transition } from '@headlessui/react';
+import { createStructuredSelector } from 'reselect';
 
 import { toggleCartHidden } from '../../redux/cart/cart.actions';
 import CartItem from '../cart-item/cart-item.component';
@@ -8,10 +9,12 @@ import {
   selectCartItems,
   selectCartVisibility,
 } from '../../redux/cart/cart.selectors';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import EmptyCart from '../empty-cart/empty-cart.component';
+import CustomButton from '../custom-button/custom-button.component';
 
-const Cart = ({ hidden, toggleCartHidden, cartItems }) => {
-  const [removeOverlay, setRemoveOverlay] = useState(false);
+const Cart = ({ hidden, toggleCartHidden, cartItems, history }) => {
+  const [removeOverlay, setRemoveOverlay] = useState(true);
   return (
     <section
       class={`fixed inset-0 overflow-hidden z-20 ${
@@ -93,24 +96,37 @@ const Cart = ({ hidden, toggleCartHidden, cartItems }) => {
                   </div>
                 </div>
                 <ul class='divide-y divide-gray-200 overflow-y-visible'>
-                  {cartItems.map((cartItem) => (
-                    <CartItem key={cartItem.id} item={cartItem} />
-                  ))}
+                  {cartItems.length ? (
+                    cartItems.map((cartItem) => (
+                      <CartItem key={cartItem.id} item={cartItem} />
+                    ))
+                  ) : (
+                    <EmptyCart
+                      imageUrl='https://res.cloudinary.com/dmcookpro/image/upload/v1618334629/Asset_16_hjisno.png'
+                      alt='Empty Cart'
+                      title='Your cart is empty! 😟'
+                      subtitle="You still haven't bought anything"
+                    />
+                  )}
                 </ul>
                 <div class='flex-shrink-0 px-4 border-t border-gray-200 py-5 sm:px-6 mt-auto'>
                   <div class='space-x-3 flex justify-end'>
-                    <button
+                    <CustomButton
+                      onClick={toggleCartHidden}
                       type='button'
-                      class='bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500'
+                      custom='bg-white border-blue-gray-300 text-blue-gray-700 hover:bg-blue-gray-50'
                     >
-                      Cancel
-                    </button>
-                    <button
-                      type='submit'
-                      class='inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500'
+                      Close
+                    </CustomButton>
+                    <CustomButton
+                      type='button'
+                      onClick={() => {
+                        history.push('/checkout');
+                        toggleCartHidden();
+                      }}
                     >
                       Checkout
-                    </button>
+                    </CustomButton>
                   </div>
                 </div>
               </div>
@@ -122,11 +138,11 @@ const Cart = ({ hidden, toggleCartHidden, cartItems }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  hidden: selectCartVisibility(state),
-  cartItems: selectCartItems(state),
+const mapStateToProps = createStructuredSelector({
+  hidden: selectCartVisibility,
+  cartItems: selectCartItems,
 });
 const mapDispatchToProps = (dispatch) => ({
   toggleCartHidden: () => dispatch(toggleCartHidden()),
 });
-export default connect(mapStateToProps, mapDispatchToProps)(Cart);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Cart));
