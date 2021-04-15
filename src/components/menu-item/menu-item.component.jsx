@@ -5,13 +5,11 @@ const MenuItem = ({ title, imageUrl, size, history, match, linkUrl }) => {
   return (
     <>
       <div
-        className={`relative sm:py-16 lg:py-0 ${size ? size : 'col-span-2'}`}
+        className={`relative sm:py-16 lg:py-0 cursor-pointer ${
+          size ? size : 'col-span-2'
+        }`}
         onClick={() => history.push(`${match.url}${linkUrl}`)}
       >
-        <div
-          aria-hidden='true'
-          className='hidden sm:block lg:absolute lg:inset-y-0 lg:right-0 lg:w-screen'
-        ></div>
         <div className='relative mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-0 lg:max-w-none lg:py-6'>
           <div className='relative pt-64 pb-10 rounded-2xl shadow-xl overflow-hidden'>
             <img

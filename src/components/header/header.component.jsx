@@ -16,7 +16,7 @@ import Search from '../search/search.component';
 import MobileHeader from '../mobile-header/mobile-header.component';
 import CartIcon from '../cart-icon/cart-icon.component';
 import Cart from '../cart-dropdown/cart-dropdown.component';
-import { selectCurrentUser } from '../../redux/user/user.selector'
+import { selectCurrentUser } from '../../redux/user/user.selectors'
 
 const Header = ({ currentUser }) => {
   const [menuOpen, setMenuOpen] = useState(false);
