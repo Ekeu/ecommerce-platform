@@ -45,6 +45,48 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   return userRef;
 };
 
+export const addCollectionAndDocuments = async (
+  collectionKey,
+  objectsToAdd
+) => {
+  const collectionRef = firestore.collection(collectionKey);
+
+  /**
+   * Batch write ==> Group all our calls into one request
+   */
+  const batch = firestore.batch();
+
+  objectsToAdd.forEach((obj) => {
+    // Telling firebase give me a new document ref in this collection and randomly generate an id for me
+    const newDocRef = collectionRef.doc();
+    batch.set(newDocRef, obj);
+  });
+
+  /**
+   * batch.commit() will fire off our batch request and it returns a Promise
+   * and returns as a void value.
+   */
+
+  return await batch.commit();
+};
+
+export const convertCollectionsSnapshotToMap = (collections) => {
+  const transformedCollection = collections.docs.map((doc) => {
+    const { title, items } = doc.data();
+
+    return {
+      id: doc.id,
+      routeName: encodeURI(title.toLowerCase()),
+      title,
+      items,
+    };
+  });
+  return transformedCollection.reduce((acc, collection) => {
+    acc[collection.title.toLowerCase()] = collection;
+    return acc;
+  }, {});
+};
+
 firebase.initializeApp(config);
 
 export const auth = firebase.auth();
