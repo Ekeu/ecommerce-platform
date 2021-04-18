@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router';
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 
-import CollectionsOverview from '../../components/collections-overview/collections-overwiew.component';
-import CollectionPage from '../collection/collection.component';
+import CollectionsOverviewContainer from '../../components/collections-overview/collections-overwiew.container';
+import CollectionPageContainer from '../collection/collection.container';
 
 /**
  * Now that we have switched to Redux-Thunk with a Promise based pattern we now import our new action creator
@@ -12,11 +11,6 @@ import CollectionPage from '../collection/collection.component';
  */
 //import { updateCollections } from '../../redux/shop/shop.actions';
 import { fetchCollectionsStartAsync } from '../../redux/shop/shop.actions';
-import {
-  selectIsCollectionFetching,
-  selectIsCollectionLoaded,
-} from '../../redux/shop/shop.selectors';
-import WithSpinner from '../../components/with-spinner/with-spinner.component';
 
 // Now handled by the reducer and thunk
 /* import {
@@ -24,8 +18,6 @@ import WithSpinner from '../../components/with-spinner/with-spinner.component';
   convertCollectionsSnapshotToMap,
 } from '../../firebase/firebase.utils'; */
 
-const CollectionsOverviewWithSpinner = WithSpinner(CollectionsOverview);
-const CollectionPageWithSpinner = WithSpinner(CollectionPage);
 class ShopPage extends Component {
   //State is now handled with redux where we use isFetching instad of loading
   /* state = {
@@ -77,38 +69,23 @@ class ShopPage extends Component {
     fetchCollectionsStartAsync();
   }
   render() {
-    const { match, IsCollectionFetching, IsCollectionLoaded } = this.props;
+    const { match } = this.props;
     //const { loading } = this.state;
     return (
       <>
         <Route
           exact
           path={`${match.path}`}
-          render={(props) => (
-            <CollectionsOverviewWithSpinner
-              isLoading={IsCollectionFetching}
-              {...props}
-            />
-          )}
+          component={CollectionsOverviewContainer}
         />
         <Route
           path={`${match.path}/:collectionId`}
-          render={(props) => (
-            <CollectionPageWithSpinner
-              isLoading={!IsCollectionLoaded}
-              {...props}
-            />
-          )}
+          component={CollectionPageContainer}
         />
       </>
     );
   }
 }
-
-const mapStateToProps = createStructuredSelector({
-  IsCollectionFetching: selectIsCollectionFetching,
-  IsCollectionLoaded: selectIsCollectionLoaded,
-});
 
 const mapDispatchToProps = (dispatch) => ({
   // Not needed since everything is now handled with thunk
@@ -117,4 +94,4 @@ const mapDispatchToProps = (dispatch) => ({
   fetchCollectionsStartAsync: () => dispatch(fetchCollectionsStartAsync()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShopPage);
+export default connect(null, mapDispatchToProps)(ShopPage);
