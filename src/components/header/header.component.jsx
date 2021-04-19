@@ -7,8 +7,7 @@ import { Transition } from '@headlessui/react';
  * a new suit up component
  */
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect'
-import { auth } from '../../firebase/firebase.utils';
+import { createStructuredSelector } from 'reselect';
 import Logo from '../../assets/hotShopping.svg';
 import './header.styles.scss';
 import CustomLink from '../custom-link/custom-link.component';
@@ -16,9 +15,10 @@ import Search from '../search/search.component';
 import MobileHeader from '../mobile-header/mobile-header.component';
 import CartIcon from '../cart-icon/cart-icon.component';
 import Cart from '../cart-dropdown/cart-dropdown.component';
-import { selectCurrentUser } from '../../redux/user/user.selectors'
+import { selectCurrentUser } from '../../redux/user/user.selectors';
+import { signOutStart } from '../../redux/user/user.action';
 
-const Header = ({ currentUser }) => {
+const Header = ({ currentUser, signOutStart }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [userMenuIsOpen, setUserMenuIsOpen] = useState(false);
   return (
@@ -137,7 +137,7 @@ const Header = ({ currentUser }) => {
                       <CustomLink
                         type='button'
                         role='menuitem'
-                        onClick={() => auth.signOut()}
+                        onClick={signOutStart}
                       >
                         Sign out
                       </CustomLink>
@@ -185,4 +185,7 @@ const Header = ({ currentUser }) => {
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
 });
-export default connect(mapStateToProps)(Header);
+const mapDispatchToProps = (dispatch) => ({
+  signOutStart: () => dispatch(signOutStart()),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

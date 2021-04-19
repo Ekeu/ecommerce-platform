@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 import HotShopping from '../../assets/hotShopping.svg';
 import CustomButton from '../custom-button/custom-button.component';
 import SocialButton from '../custom-button/social-button.component';
@@ -10,13 +12,13 @@ import { ReactComponent as Twitter } from '../../assets/sign-in-twitter.svg';
 import { ReactComponent as Github } from '../../assets/sign-in-github.svg';
 
 import {
-  signInWithGoogle,
-  signInWithTwitter,
-  signInWithGithub,
-  auth,
-} from '../../firebase/firebase.utils';
+  googleSignInStart,
+  twitterSignInStart,
+  gitHubSignInStart,
+  emailSignInStart,
+} from '../../redux/user/user.action';
 
-export default class SignIn extends Component {
+class SignIn extends Component {
   constructor() {
     super();
 
@@ -28,14 +30,17 @@ export default class SignIn extends Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
+    const { emailSignInStart } = this.props;
     const { email, password } = this.state;
 
-    try {
+    emailSignInStart(email, password);
+
+    /* try {
       await auth.signInWithEmailAndPassword(email, password);
       this.setState({ email: '', password: '' });
     } catch (error) {
       console.log('Ooop! Something went wrong ==> ', error.message);
-    }
+    } */
   };
 
   handleChange = (e) => {
@@ -44,6 +49,7 @@ export default class SignIn extends Component {
   };
 
   render() {
+    const { googleSignInStart, twitterSignInStart, gitHubSignInStart } = this.props;
     return (
       <div className='min-h-screen bg-white flex flex-col justify-center py-12 sm:px-6 lg:px-8'>
         <div className='sm:mx-auto sm:w-full sm:max-w-md'>
@@ -114,19 +120,23 @@ export default class SignIn extends Component {
 
               <div className='mt-6 grid grid-cols-3 gap-3'>
                 <div>
-                  <SocialButton social='Google' onClick={signInWithGoogle}>
+                  <SocialButton
+                    social='Google'
+                    type='button'
+                    onClick={googleSignInStart}
+                  >
                     <Google />
                   </SocialButton>
                 </div>
 
                 <div>
-                  <SocialButton social='Twitter' onClick={signInWithTwitter}>
+                  <SocialButton social='Twitter' type='button' onClick={twitterSignInStart}>
                     <Twitter />
                   </SocialButton>
                 </div>
 
                 <div>
-                  <SocialButton social='Github' onClick={signInWithGithub}>
+                  <SocialButton social='Github' type='button' onClick={gitHubSignInStart}>
                     <Github />
                   </SocialButton>
                 </div>
@@ -138,3 +148,13 @@ export default class SignIn extends Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  googleSignInStart: () => dispatch(googleSignInStart()),
+  twitterSignInStart: () => dispatch(twitterSignInStart()),
+  gitHubSignInStart: () => dispatch(gitHubSignInStart()),
+  emailSignInStart: (email, password) =>
+    dispatch(emailSignInStart({ email, password })),
+});
+
+export default connect(null, mapDispatchToProps)(SignIn);

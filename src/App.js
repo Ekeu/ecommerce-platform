@@ -9,9 +9,8 @@ import Header from './components/header/header.component';
 import SignIn from './components/sign-in/sign-in.component';
 import SignUp from './components/sign-up/sign-up.component';
 import CheckoutPage from './pages/checkout/checkout.component';
-import { auth, createUserProfileDocument } from './firebase/firebase.utils';
-import { setCurentUser } from './redux/user/user.action';
 import { selectCurrentUser } from './redux/user/user.selectors';
+import { checkUserSession } from './redux/user/user.action';
 
 import './App.css';
 
@@ -28,8 +27,6 @@ class App extends Component {
    * when the authentication state has changed.
    */
   componentDidMount() {
-    const { setCurentUser } = this.props;
-
     /**
      * onAuthStateChanged ==> is an open subscription
      *
@@ -47,13 +44,12 @@ class App extends Component {
      * subscriptions when this component unmounts, because we don't
      * want memory leaks in our JS application. (Check the unsubscribeFromAuth method)
      */
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+    /* this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
 
-        /**
-         * Constantly listening to changes on the referenced document
-         */
+        //Constantly listening to changes on the referenced document
+         
         userRef.onSnapshot((snapShot) => {
           setCurentUser({
             id: snapShot.id,
@@ -63,7 +59,9 @@ class App extends Component {
       } else {
         setCurentUser(userAuth);
       }
-    });
+    }); */
+    const { checkUserSession } = this.props;
+    checkUserSession();
   }
 
   /**
@@ -126,7 +124,9 @@ const mapStateToProps = createStructuredSelector({
  * @param {object} dispatch A way for redux to know that whatever object you're passing me is going to be an action object that I'm going to pass to every reducer.
  * @returns {object} {property: value} The property being the actual prop we pass in our component
  */
+
 const mapDispatchToProps = (dispatch) => ({
-  setCurentUser: (user) => dispatch(setCurentUser(user)),
+  checkUserSession: () => dispatch(checkUserSession()),
 });
+
 export default connect(mapStateToProps, mapDispatchToProps)(App);
