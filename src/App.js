@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -14,92 +14,27 @@ import { checkUserSession } from './redux/user/user.action';
 
 import './App.css';
 
-class App extends Component {
-  /**
-   * Get user state whatever the provider
-   */
-
-  unsubscribeFromAuth = null;
-
-  /**
-   * We don't want to remount our app, what we want is
-   * to always know when firebase has realised
-   * when the authentication state has changed.
-   */
-  componentDidMount() {
-    /**
-     * onAuthStateChanged ==> is an open subscription
-     *
-     * It's an open messaging system between our application
-     * and our firebase app.
-     *
-     * When ever any changes occur on firebase from any source
-     * related to this application firebase sends out a message that
-     * says that the OAuth state has changed - the suer has updated
-     * (e.g SignIn/SignOut). Giving use the current user. We don't have
-     * to manually and this connection is always open as long as our
-     * component is mounted.
-     *
-     * But because it's an open connection we also have to close
-     * subscriptions when this component unmounts, because we don't
-     * want memory leaks in our JS application. (Check the unsubscribeFromAuth method)
-     */
-    /* this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
-      if (userAuth) {
-        const userRef = await createUserProfileDocument(userAuth);
-
-        //Constantly listening to changes on the referenced document
-         
-        userRef.onSnapshot((snapShot) => {
-          setCurentUser({
-            id: snapShot.id,
-            ...snapShot.data(),
-          });
-        });
-      } else {
-        setCurentUser(userAuth);
-      }
-    }); */
-    const { checkUserSession } = this.props;
+const App = ({ checkUserSession, currentUser }) => {
+  useEffect(() => {
     checkUserSession();
-  }
+  }, [checkUserSession]);
 
-  /**
-   * onAuthStateChanged gives us back a function that when we call closes the connection.
-   *
-   * We wan to close it when ever our component unmounts
-   */
+  const userRedirect = (Component) =>
+    currentUser ? <Redirect to='/' /> : <Component />;
 
-  componentWillUnmount() {
-    this.unsubscribeFromAuth();
-  }
-
-  userRedirect = (Component) =>
-    this.props.currentUser ? <Redirect to='/' /> : <Component />;
-
-  render() {
-    return (
-      <>
-        <Header />
-        <Switch>
-          <Route path='/shop' component={ShopPage} />
-          <Route exact path='/checkout' component={CheckoutPage} />
-          <Route exact path='/' component={HomePage} />
-          <Route
-            exact
-            path='/signin'
-            render={() => this.userRedirect(SignIn)}
-          />
-          <Route
-            exact
-            path='/signup'
-            render={() => this.userRedirect(SignUp)}
-          />
-        </Switch>
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <Header />
+      <Switch>
+        <Route path='/shop' component={ShopPage} />
+        <Route exact path='/checkout' component={CheckoutPage} />
+        <Route exact path='/' component={HomePage} />
+        <Route exact path='/signin' render={() => userRedirect(SignIn)} />
+        <Route exact path='/signup' render={() => userRedirect(SignUp)} />
+      </Switch>
+    </>
+  );
+};
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
 });
