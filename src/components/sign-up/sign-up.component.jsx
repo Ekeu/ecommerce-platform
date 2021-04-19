@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 import HotShopping from '../../assets/hotShopping.svg';
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
+import { signUpStart } from '../../redux/user/user.action';
 
-import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
-
-export default class SignUp extends Component {
+class SignUp extends Component {
   constructor() {
     super();
 
@@ -22,13 +23,15 @@ export default class SignUp extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
 
+    const { signUpStart } = this.props;
     const { displayName, email, password, confirmPassword } = this.state;
+    const photoURL = `https://robohash.org/${email}.png?set=set3&size=150x150`;
 
     if (password !== confirmPassword) {
       alert("Passwords don't match");
       return;
     }
-    try {
+    /* try {
       const { user } = await auth.createUserWithEmailAndPassword(
         email,
         password
@@ -46,7 +49,8 @@ export default class SignUp extends Component {
       });
     } catch (error) {
       console.log('Ooops! Something went wrong ==> ', error.message);
-    }
+    } */
+    signUpStart({ displayName, email, password, photoURL });
   };
 
   handleChange = (e) => {
@@ -141,3 +145,9 @@ export default class SignUp extends Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  signUpStart: (userCredentials) => dispatch(signUpStart(userCredentials)),
+});
+
+export default connect(null, mapDispatchToProps)(SignUp);

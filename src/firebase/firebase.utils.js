@@ -87,6 +87,15 @@ export const convertCollectionsSnapshotToMap = (collections) => {
   }, {});
 };
 
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged(userAuth => {
+      unsubscribe();
+      resolve(userAuth)
+    },reject)
+  })
+}
+
 firebase.initializeApp(config);
 
 export const auth = firebase.auth();
@@ -96,9 +105,9 @@ export const firestore = firebase.firestore();
  * This gives us access to the GoogleAuthProvider class
  * from the auth library
  */
-const googleProvider = new firebase.auth.GoogleAuthProvider();
-const twitterProvider = new firebase.auth.TwitterAuthProvider();
-const gitHubProvider = new firebase.auth.GithubAuthProvider();
+export const googleProvider = new firebase.auth.GoogleAuthProvider();
+export const twitterProvider = new firebase.auth.TwitterAuthProvider();
+export const gitHubProvider = new firebase.auth.GithubAuthProvider();
 
 /**
  * What this means is that, we always want to trigger the google
